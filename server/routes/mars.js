@@ -1,9 +1,9 @@
 var express = require('express');
 var marsRouter = express.Router();
+var marsController = require('../controller/mars.controller')
 
 /* GET mars listing. */
-marsRouter.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+marsRouter.get('/photos', marsController.fetchMarsPhotos);
 
-module.exports = marsRouter;
+express.request
+module.exports = marsRouter; 
