@@ -3,13 +3,17 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "client": "cd client && yarn start",
+    "start": "concurrently --kill-others \"nodemon ./bin/www\" \"npm run client\""
   },
   "dependencies": {
+    "concurrently": "^4.1.0",
     "cookie-parser": "~1.4.4",
+    "cors": "^2.8.5",
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "morgan": "~1.9.1",
+    "nodemon": "^1.19.1",
     "request": "^2.88.0"
   }
 }
