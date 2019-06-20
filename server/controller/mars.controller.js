@@ -14,4 +14,8 @@ let fetchMarsPhotos = async (req,res,next) => {
     next();
 }
 
-module.exports = {fetchMarsPhotos};
+let getHealthCheck = (req,res,next) => {
+    res.json({status:'Healthy'});
+}
+
+module.exports = {fetchMarsPhotos,getHealthCheck};
