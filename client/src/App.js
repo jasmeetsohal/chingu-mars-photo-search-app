@@ -10,10 +10,11 @@ export default class App extends React.Component {
 
   render() {
     // console.log("public url :: ",process.env.PUBLIC_URL,window.location.origin);
+    let appClass = this.state.toggleSearch ? 'App-after' : 'App-before';
     return (
-      <div className="App">
+      <div className={appClass}>
         { this.state.toggleSearch ? 
-          <div className="navBar"><button onClick={this.toggleSearchBoard}>Home</button></div>
+          <div  className="col-12 navBar"><button onClick={this.toggleSearchBoard}>Home</button></div>
           :''}
         <header className="App-header">
            {this.state.toggleSearch? <Mars /> : <button onClick={this.toggleSearchBoard}>Get In</button>} 

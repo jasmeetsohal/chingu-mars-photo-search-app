@@ -14,7 +14,7 @@ export default class Mars extends Component {
 
     render() {
         let images =  this.state.resPhotoList.map((data,i) => {
-            return  <div className="column-img"> <img key={i} src={data.img_src} alt="Not found"/></div>
+            return  <div key={i} className="column-img"> <img key={i} src={data.img_src} alt="Not found"/></div>
       })
        return (
           <div className="mars-search">
