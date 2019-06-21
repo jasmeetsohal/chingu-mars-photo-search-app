@@ -1,41 +1,33 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React from 'react';
+import Mars from './mars/mars';
 import './App.css';
 
-class App extends Component {
-  // constructor(){
-  //   super();
-  // }
+export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {toggleSearch: false};
+  }
 
   render() {
+    // console.log("public url :: ",process.env.PUBLIC_URL,window.location.origin);
     return (
       <div className="App">
+        { this.state.toggleSearch ? 
+          <div className="navBar"><button onClick={this.toggleSearchBoard}>Home</button></div>
+          :''}
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <button onClick={this.healthCheck}> Get Health Check</button>
+           {this.state.toggleSearch? <Mars /> : <button onClick={this.toggleSearchBoard}>Get In</button>} 
         </header>
+        
       </div>
     );
   }
 
-  healthCheck() {
-    fetch('https://mars-photos.herokuapp.com/api/v1/rovers/Spirit/photos?sol=2006-10-27&camera=PANCAM',
-    {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-      },
-    }
-    ).then(result =>{
-      result.json().then(json=>{
-        console.log("resonse : ",json);
-      })
-    })
+  toggleSearchBoard = () => {
+    this.setState(state => ({
+        toggleSearch: !state.toggleSearch
+    }));
   }
+
+  
 }
-
-
-export default App;

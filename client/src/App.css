@@ -1,15 +1,15 @@
 .App {
   text-align: center;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+  background: url('http://localhost:3000/mars-rover.jpg');
+  background-repeat:no-repeat;
+  -webkit-background-size:cover;
+  -moz-background-size:cover;
+  -o-background-size:cover;
+  background-size:cover;
+  background-position:center;
 }
 
 .App-header {
-  background-color: #282c34;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -21,6 +21,10 @@
 
 .App-link {
   color: #61dafb;
+}
+
+.navBar {
+  float: left;
 }
 
 @keyframes App-logo-spin {
