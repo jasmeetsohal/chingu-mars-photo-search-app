@@ -1,16 +1,3 @@
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  font-family: Arial;
-}
-
-.header {
-  text-align: center;
-  padding: 32px;
-}
 
 .row-img {
   display: -ms-flexbox; /* IE10 */
@@ -35,7 +22,7 @@ body {
 }
 
 .mars-search {
-    background-color: azure;
+    background-color: rgb(255, 255, 255);
 }
 
 /* Responsive layout - makes a two column-layout instead of four columns */

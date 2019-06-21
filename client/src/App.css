@@ -1,4 +1,4 @@
-.App {
+.App-before {
   text-align: center;
   background: url('http://localhost:3000/mars-rover.jpg');
   background-repeat:no-repeat;
@@ -7,6 +7,12 @@
   -o-background-size:cover;
   background-size:cover;
   background-position:center;
+}
+
+.App-after {
+  text-align: center;
+  background: url('http://localhost:3000/mars-rover.jpg');
+  background-color: #282c34;
 }
 
 .App-header {
@@ -24,7 +30,9 @@
 }
 
 .navBar {
+  background: url('http://localhost:3000/mars-rover.jpg');
   float: left;
+  position: fixed;
 }
 
 @keyframes App-logo-spin {
