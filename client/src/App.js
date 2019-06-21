@@ -1,26 +1,33 @@
 import React from 'react';
-import logo from './logo.svg';
+import Mars from './mars/mars';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {toggleSearch: false};
+  }
 
-export default App;
+  render() {
+    // console.log("public url :: ",process.env.PUBLIC_URL,window.location.origin);
+    return (
+      <div className="App">
+        { this.state.toggleSearch ? 
+          <div className="navBar"><button onClick={this.toggleSearchBoard}>Home</button></div>
+          :''}
+        <header className="App-header">
+           {this.state.toggleSearch? <Mars /> : <button onClick={this.toggleSearchBoard}>Get In</button>} 
+        </header>
+        
+      </div>
+    );
+  }
+
+  toggleSearchBoard = () => {
+    this.setState(state => ({
+        toggleSearch: !state.toggleSearch
+    }));
+  }
+
+  
+}
