@@ -16,6 +16,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'build')));
 
 app.use('/', indexRouter);
-app.use('/mars',marsRouter);
+app.use('/api/mars',marsRouter);
 
 module.exports = app;

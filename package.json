@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "client": "cd client && yarn start",
-    "start": "concurrently --kill-others \"nodemon ./bin/www\" \"npm run client\""
+    "start":"node ./bin/www",
+    "start:dev": "concurrently --kill-others \"nodemon ./bin/www\" \"npm run client\""
   },
   "dependencies": {
     "concurrently": "^4.1.0",

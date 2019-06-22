@@ -10,15 +10,25 @@ export default class App extends React.Component {
 
   render() {
     // console.log("public url :: ",process.env.PUBLIC_URL,window.location.origin);
-    let appClass = this.state.toggleSearch ? 'App-after' : 'App-before';
+    // const divMainStyle = {
+    //   'background-image': "url(https://mars.nasa.gov/imgs/2017/05/PIA21635-br2.jpg)"
+    // }
+    let appClass = this.state.toggleSearch ? 'container-fluid h-100' : 'App-before';
     return (
       <div className={appClass}>
         { this.state.toggleSearch ? 
-          <div  className="col-12 navBar"><button onClick={this.toggleSearchBoard}>Home</button></div>
+          <div  className="w-100 p-3 h-50">
+          <button className="btn btn-outline-light" onClick={this.toggleSearchBoard} >Home</button>
+          </div>
           :''}
-        <header className="App-header">
-           {this.state.toggleSearch? <Mars /> : <button onClick={this.toggleSearchBoard}>Get In</button>} 
-        </header>
+       
+           {this.state.toggleSearch? <Mars /> :
+            <header className="App-header">
+           <p>Explore an adventure of Criosity taking some good photos of Mars</p>
+           <button onClick={this.toggleSearchBoard}>Dive inside</button>
+           </header>
+           } 
+        
         
       </div>
     );

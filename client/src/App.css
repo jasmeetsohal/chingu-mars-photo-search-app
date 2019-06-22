@@ -1,6 +1,6 @@
 .App-before {
   text-align: center;
-  background: url('http://localhost:3000/mars-rover.jpg');
+  background: url('https://mars.nasa.gov/imgs/2017/05/PIA21635-br2.jpg');
   background-repeat:no-repeat;
   -webkit-background-size:cover;
   -moz-background-size:cover;
@@ -13,6 +13,7 @@
   text-align: center;
   background: url('http://localhost:3000/mars-rover.jpg');
   background-color: #282c34;
+  opacity: 3;
 }
 
 .App-header {
