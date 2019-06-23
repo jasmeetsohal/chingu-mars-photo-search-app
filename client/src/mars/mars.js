@@ -8,7 +8,9 @@ export default class Mars extends Component {
             cameraOptions:['Any','FHAZ','NAVCAM','MAST','CHEMCAM','MAHLI','MARDI','RHAZ'],
             camera:'Any',
             sol: '',
-            resPhotoList:[]
+            resPhotoList:[],
+            spinnerStatus: false,
+            buttonDisable: false
         }
     }
 
@@ -24,7 +26,7 @@ export default class Mars extends Component {
        return (
           <div className="col-sm-12">
            <form className="form-inline d-flex justify-content-center border-top p-4">
-              <input type="text" className="form-control m-1" value={this.state.sol} onChange={this.handleSOLChange} placeholder="SOL"></input>
+              <input type="number" className="form-control m-1" value={this.state.sol} onChange={this.handleSOLChange} placeholder="SOL"></input>
               <select className="form-control  m-1" value={this.state.camera} onChange={this.handleCameraOptionChange}>
                   {
                       this.state.cameraOptions.map( (camera,index) => {
@@ -32,13 +34,19 @@ export default class Mars extends Component {
                       })
                   }
               </select>
-              <button type="button" className="btn btn-primary  m-1" onClick={this.searchPhotos}>Search</button>
+              <button type="button" className="btn btn-primary  m-1" onClick={this.searchPhotos} disabled={!this.state.sol || this.state.buttonDisable}>Search</button>
              
               </form>
               <div className="col-12 p-5 mt-4 mb-4 border border-white justify-content-center">
+              {
+                  this.state.spinnerStatus?
+                  <div className="d-flex justify-content-center">
+                <div className="spinner-border text-light" role="status">
+                     <span className="sr-only">Loading...</span>
+               </div>
+               </div>
                  
-                 {
-                     this.state.resPhotoList.length > 0 ? images : <p>No Photo</p> 
+                     :this.state.resPhotoList.length > 0 ? images : <p className="d-flex justify-content-center empty-list">Nothing to show.</p> 
                  }
                  
              </div>
@@ -58,8 +66,22 @@ export default class Mars extends Component {
         });
     }
 
+    loadingSpinner = () => {
+      return  <div class="spinner-border" role="status">
+             <span class="sr-only">Loading...</span>
+         </div> 
+    }
+
     searchPhotos = async () => {
-    let response = await fetch(`https://chingu-mars-photo-search-app.herokuapp.com/api/mars/photos/?sol=${this.state.sol}&camera=${this.state.camera}`,
+        let response,originalData;
+    try{   
+       this.setState(
+           { 
+               spinnerStatus:true,
+               buttonDisable: true
+            }
+            );
+     response = await fetch(`http://localhost:4040/api/mars/photos/?sol=${this.state.sol}&camera=${this.state.camera}`,
     {
       method: 'GET',
       headers: {
@@ -67,9 +89,17 @@ export default class Mars extends Component {
       }
     }
     );
-    let originalData = await response.json();
+    originalData = await response.json();
     this.setState({
-        resPhotoList: originalData.photos
+        resPhotoList: originalData.photos,
+        spinnerStatus: false,
+        buttonDisable: false
     });
+} catch(e){
+    console.log("Exception while getting photos :: ",e);
+}
+   
+    
     }
+
 }

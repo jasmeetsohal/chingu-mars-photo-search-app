@@ -4,11 +4,12 @@
   "private": true,
   "scripts": {
     "client": "cd client && yarn start",
-    "start":"node ./bin/www",
-    "start:dev": "concurrently --kill-others \"nodemon ./bin/www\" \"npm run client\""
+    "start": "node ./bin/www",
+    "dev": "concurrently --kill-others \"nodemon ./bin/www\" \"npm run client\""
   },
   "dependencies": {
     "concurrently": "^4.1.0",
+    "connect-timeout": "^1.9.0",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
     "debug": "~2.6.9",

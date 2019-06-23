@@ -1,45 +1,8 @@
-
-.row-img {
-  display: -ms-flexbox; /* IE10 */
-  display: flex;
-  -ms-flex-wrap: wrap; /* IE10 */
-  flex-wrap: wrap;
-  padding: 0 4px;
-}
-
-/* Create four equal columns that sits next to each other */
-.column-img {
-  -ms-flex: 25%; /* IE10 */
-  flex: 25%;
-  max-width: 25%;
-  padding: 0 4px;
-}
-
-.column-img img {
-  margin-top: 8px;
-  vertical-align: middle;
-  width: 100%;
-}
-
 .mars-search {
     background-color: rgb(255, 255, 255);
     margin-top: 50px;
 }
 
-/* Responsive layout - makes a two column-layout instead of four columns */
-@media screen and (max-width: 800px) {
-  .column-img {
-    -ms-flex: 50%;
-    flex: 50%;
-    max-width: 50%;
-  }
-}
-
-/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
-@media screen and (max-width: 600px) {
-  .column-img {
-    -ms-flex: 100%;
-    flex: 100%;
-    max-width: 100%;
-  }
+.empty-list {
+  color: whitesmoke;
 }
