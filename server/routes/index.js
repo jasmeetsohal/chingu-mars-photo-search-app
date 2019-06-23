@@ -3,8 +3,12 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('', function(req, res, next) {
-  res.sendFile(__dirname+'/build/index.html');
+  res.sendFile(process.env.app_root+'/build/index.html');
 });
+
+router.get('/health-check',(req,res,next) => {
+  res.json({status:'Healthy'});
+})
 
 
 

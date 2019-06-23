@@ -8,6 +8,9 @@ var indexRouter = require('./server/routes/index');
 var marsRouter =  require('./server/routes/mars');
 
 var app = express();
+
+process.env.app_root=__dirname;
+
 app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
