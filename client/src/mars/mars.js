@@ -10,7 +10,8 @@ export default class Mars extends Component {
             sol: '',
             resPhotoList:[],
             spinnerStatus: false,
-            buttonDisable: false
+            buttonDisable: false,
+            errorMessage: false
         }
     }
 
@@ -46,7 +47,9 @@ export default class Mars extends Component {
                </div>
                </div>
                  
-                     :this.state.resPhotoList.length > 0 ? images : <p className="d-flex justify-content-center empty-list">Nothing to show.</p> 
+                     :this.state.resPhotoList.length > 0 ? images : <p className="d-flex justify-content-center empty-list">{
+                        this.state.errorMessage? <code>Response timeout</code>: 'Nothing to show'
+                        }</p> 
                  }
                  
              </div>
@@ -81,7 +84,7 @@ export default class Mars extends Component {
                buttonDisable: true
             }
             );
-     response = await fetch(`https://chingu-mars-photo-search-app.herokuapp.com/api/mars/photos/?sol=${this.state.sol}&camera=${this.state.camera}`,
+     response = await fetch(`http://localhost:4040/api/mars/photos/?sol=${this.state.sol}&camera=${this.state.camera}`,
     {
       method: 'GET',
       headers: {
@@ -96,7 +99,12 @@ export default class Mars extends Component {
         buttonDisable: false
     });
 } catch(e){
-    console.log("Exception while getting photos :: ",e);
+    this.setState({
+        spinnerStatus: false,
+        buttonDisable: false,
+        errorMessage: true
+    });
+    console.log("Exception while getting photos :: ",e.response);
 }
    
     

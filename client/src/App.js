@@ -24,7 +24,7 @@ export default class App extends React.Component {
        
            {this.state.toggleSearch? <Mars /> :
             <header className="App-header">
-           <p>Explore an adventure of NASA's Criosity rover taking spectacular photos of Mars</p>
+           <p>Explore an adventure of NASA's Curiosity rover taking spectacular photos of Mars</p>
            <button className="btn btn-warning" onClick={this.toggleSearchBoard}>Dive Inside</button>
            </header>
            } 

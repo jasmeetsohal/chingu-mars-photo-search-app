@@ -1,26 +1,25 @@
 const request =require('request');
+const axios = require('axios');
 
-let fetchMarsPhotos = async (req,res,next) => {
-    let URL = `https://mars-photos.herokuapp.com/api/v1/rovers/Curiosity/photos?sol=${req.query.sol}&camera=${req.query.camera}`;
-    if(req.query.camera == 'Any'){
-        URL = `https://mars-photos.herokuapp.com/api/v1/rovers/Curiosity/photos?sol=${req.query.sol}`;
-    } 
+
+let fetchMarsPhotos = async (req,res) => {
+    req.query.camera = req.query.camera === 'Any' ? '' : req.query.camera;
+    let URL = 'http://mars-photos.herokuapp.com/api/v1/rovers/curiosity/photos?';
+    URL = `${URL}${req.query.sol?`sol=${req.query.sol}`:''}${req.query.camera?`&camera=${req.query.camera}`:''}${req.query.page?`&page=${req.query.page}`:''} `;
     try{
-    let response =  await new Promise( (resolve,reject) => {
-           request(URL,{json:true},(err, res, body) => {
-              if(err) reject(err);
-              console.log("inside promise :: ",req.timedout);
-              if(req.timedout) reject("Request Timeout");
-              resolve(body);
-           });
-    });
-    res.json(response);
-    next();
-    } catch(e){
-        console.log("Inside exception in promise :: ",e);
-         res.status(400).send("Request Timeout");
-         next();
+    let response = await axios({
+            method:'GET',
+            url: URL,
+            timeout: 10 * 1000,
+            headers:{
+                "content-type":"application/json"
+            }
+        });
+        res.json(response.data);
+    } catch(e) {
+        res.status(400).send("Response timeout");
     }
+   
 }
 
 
