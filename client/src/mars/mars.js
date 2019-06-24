@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import marsService from './mars.service';
 import './mars.css'
 
 export default class Mars extends Component {
@@ -11,12 +12,20 @@ export default class Mars extends Component {
             resPhotoList:[],
             spinnerStatus: false,
             buttonDisable: false,
-            errorMessage: false
+            errorMessage: false,
+            page:1,
+            hasMoreItems:true
         }
     }
 
     render() {
-        let images =  this.state.resPhotoList.map((data,i) => {
+        let loader = (<div className="d-flex justify-content-center">
+        <div className="spinner-border text-dark" role="status">
+             <span className="sr-only">Loading...</span>
+       </div>
+       </div>)
+       let images =[];
+        images =  this.state.resPhotoList.map((data,i) => {
              return <div className="col-md-4" key={i}>
              <div className="card mb-4 box-shadow">
                  <img className="card-img-top" src={data.img_src} alt="Card" />
@@ -24,7 +33,6 @@ export default class Mars extends Component {
                           <p className="card-text">Photo taken by {data.camera.name} camera on sol {data.sol} Earth date <code>{data.earth_date}</code> </p>
                           <div className="d-flex justify-content-between align-items-center">
                              <div className="btn-group">
-                                 <button type="button" className="btn btn-sm btn-outline-secondary">View</button>
                              </div>
                          </div>
                       </div>
@@ -38,7 +46,8 @@ export default class Mars extends Component {
             <section className="jumbotron text-center">
                 <div className="container">
                   <h1 className="jumbotron-heading">Curiosity</h1>
-                  <p className="lead text-muted">Search here </p>
+                  <p className="lead text-muted">Remember SOL is the mission day when Curiosity rover landed on Mars. You can enter a range from 0 to 2445 to view
+                  the photos from any Curiosity's camera</p>
                   <p>
               <input type="number" className="form-control m-1" value={this.state.sol} onChange={this.handleSOLChange} placeholder="SOL"></input>
               <select className="form-control  m-1" value={this.state.camera} onChange={this.handleCameraOptionChange}>
@@ -56,22 +65,18 @@ export default class Mars extends Component {
 
         <div className="album py-5 bg-light">
             <div className="container">
-
+             
                 <div className="row">
                     {
-                        this.state.spinnerStatus?
-                        <div className="d-flex justify-content-center">
-                      <div className="spinner-border text-dark" role="status">
-                           <span className="sr-only">Loading...</span>
-                     </div>
-                     </div>
-                       
-                           :this.state.resPhotoList.length > 0 ? images : <p className="d-flex justify-content-center empty-list">{
-                              this.state.errorMessage? <code>Response timeout</code>: 'Nothing to show'
-                              }</p> 
+                    this.state.resPhotoList.length > 0 ? images : ''
                     }
-            
+              
                 </div>
+                <p className="d-flex justify-content-center empty-list">{
+                    this.state.errorMessage? <code>Response timeout</code>: !this.state.hasMoreItems && this.state.resPhotoList.length===0 ? <code>Nothing to show</code>
+                    :'' }</p> 
+                {this.state.spinnerStatus?loader:''}
+                { this.state.hasMoreItems && this.state.resPhotoList.length > 24? <button type="button" className="btn btn-outline-warning" onClick={this.loadMore}>Load More...</button>:''}
 
             </div>
          </div>
@@ -82,7 +87,7 @@ export default class Mars extends Component {
       <div className="container">
         <p className="float-right">
         </p>
-       <p>Made with</p>
+       <p> Made with &#10084; by <a href="https://www.freecodecamp.org/jasmeetsohal">jasmeetsohal</a> </p>
       </div>
     </footer>
    </div>
@@ -102,38 +107,62 @@ export default class Mars extends Component {
     }
 
     searchPhotos = async () => {
-        let response,originalData;
+        this.setState(
+            { 
+                spinnerStatus:true,
+                buttonDisable: true,
+                resPhotoList:[],
+                page:1
+             }
+             );
     try{   
-       this.setState(
-           { 
-               spinnerStatus:true,
-               buttonDisable: true
-            }
-            );
-     response = await fetch(`http://localhost:4040/api/mars/photos/?sol=${this.state.sol}&camera=${this.state.camera}`,
-    {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-      }
-    }
-    );
-    originalData = await response.json();
+    let response = await marsService.getAllByPage(this.state.sol,this.state.camera, 1);
     this.setState(state=>({
-        resPhotoList: originalData.photos,
+        resPhotoList: response.photos,
         spinnerStatus: false,
-        buttonDisable: false
+        buttonDisable: false,
+        hasMoreItems: response.photos.length === 25 ? true : false,
+        page: response.photos.length === 25 ? state.page + 1 : state.page
     }));
 } catch(e){
     this.setState({
         spinnerStatus: false,
         buttonDisable: false,
-        errorMessage: true
+        errorMessage: true,
+        hasMoreItems: false
     });
     console.log("Exception while getting photos :: ",e.response);
 }
    
     
     }
+
+    loadMore = async() =>{
+        this.setState(
+            { 
+                spinnerStatus:true,
+                buttonDisable: true,
+             }
+             );
+    try{   
+    let response = await marsService.getAllByPage(this.state.sol,this.state.camera, this.state.page);
+    let currentResponse = this.state.resPhotoList;
+    currentResponse.push(...response.photos);
+    this.setState(state=>({
+        resPhotoList: currentResponse,
+        spinnerStatus: false,
+        buttonDisable: false,
+        hasMoreItems: response.photos.length === 25 ? true : false,
+        page: response.photos.length === 25 ? state.page + 1 : state.page
+    }));
+} catch(e){
+    this.setState({
+        spinnerStatus: false,
+        buttonDisable: false,
+        errorMessage: true,
+        hasMoreItems: false
+    });
+    }
+}
 
 }

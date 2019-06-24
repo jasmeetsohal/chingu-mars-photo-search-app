@@ -9,10 +9,6 @@ export default class App extends React.Component {
   }
 
   render() {
-    // console.log("public url :: ",process.env.PUBLIC_URL,window.location.origin);
-    // const divMainStyle = {
-    //   'background-image': "url(https://mars.nasa.gov/imgs/2017/05/PIA21635-br2.jpg)"
-    // }
     let appClass = this.state.toggleSearch ? 'container-fluid h-100' : 'App-before';
     return (
       <div className={appClass}>
@@ -25,7 +21,7 @@ export default class App extends React.Component {
            {this.state.toggleSearch? <Mars /> :
             <header className="App-header">
            <p>Explore an adventure of NASA's Curiosity rover taking spectacular photos of Mars</p>
-           <button className="btn btn-warning" onClick={this.toggleSearchBoard}>Dive Inside</button>
+           <button className="btn btn-warning" onClick={this.toggleSearchBoard}>Dive In</button>
            </header>
            } 
         
