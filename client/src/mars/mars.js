@@ -81,7 +81,7 @@ export default class Mars extends Component {
                buttonDisable: true
             }
             );
-     response = await fetch(`http://localhost:4040/api/mars/photos/?sol=${this.state.sol}&camera=${this.state.camera}`,
+     response = await fetch(`https://chingu-mars-photo-search-app.herokuapp.com/api/mars/photos/?sol=${this.state.sol}&camera=${this.state.camera}`,
     {
       method: 'GET',
       headers: {
