@@ -4,10 +4,12 @@
   "private": true,
   "scripts": {
     "client": "cd client && yarn start",
-    "start": "cd client && yarn install && yarn build && cd .. && mv client/build/ . && node ./bin/www",
-    "dev": "concurrently --kill-others \"nodemon ./bin/www\" \"npm run client\""
+    "start": "node ./bin/www",
+    "dev": "concurrently --kill-others \"nodemon ./bin/www\" \"npm run client\"",
+    "test": "mocha ./server/test/test.js --timeout 60000"
   },
   "dependencies": {
+    "axios": "^0.19.0",
     "concurrently": "^4.1.0",
     "connect-timeout": "^1.9.0",
     "cookie-parser": "~1.4.4",
@@ -15,7 +17,11 @@
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "morgan": "~1.9.1",
-    "nodemon": "^1.19.1",
-    "request": "^2.88.0"
+    "nodemon": "^1.19.1"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "mocha": "^6.1.4"
   }
 }
