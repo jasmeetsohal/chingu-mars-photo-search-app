@@ -37,6 +37,19 @@ describe('NASAs MARS API', () => {
         });
     });
 
+    it('should return empty when sol is < 0', (done) => {
+      chai.request(server)
+        .get('/api/mars/photos')
+        .query({
+          sol: '-1'
+        })
+        .end(function (err, res) {
+          assert.equal(res.status, 200);
+          assert.equal(res.body.photos.length, 0);
+          done();
+        });
+    });
+
   });
 
   describe('is request exceeds time', () => {
